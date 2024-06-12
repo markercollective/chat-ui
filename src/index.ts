@@ -11,11 +11,14 @@ interface Options {
 }
 
 interface Message {
-  role: 'SYSTEM' | 'USER';
+  role: "SYSTEM" | "USER";
   message: string;
 }
 
-function createElement<T extends HTMLElement>(tagName: string, className: string): T {
+function createElement<T extends HTMLElement>(
+  tagName: string,
+  className: string,
+): T {
   const element = document.createElement(tagName) as T;
   element.classList.add(className);
   return element;
@@ -28,8 +31,14 @@ class ChatUI {
   private systemName: string;
   private userName: string;
 
-  private inputElement: HTMLInputElement = createElement("input", "chatui-input");
-  private messagesElement: HTMLDivElement = createElement("div", "chatui-messages");
+  private inputElement: HTMLInputElement = createElement(
+    "input",
+    "chatui-input",
+  );
+  private messagesElement: HTMLDivElement = createElement(
+    "div",
+    "chatui-messages",
+  );
   private isTyping: boolean = false;
   private error: string | null = null;
 
@@ -46,7 +55,10 @@ class ChatUI {
   }
 
   private render() {
-    this.messagesElement = createElement<HTMLDivElement>("div", "chatui-messages");
+    this.messagesElement = createElement<HTMLDivElement>(
+      "div",
+      "chatui-messages",
+    );
 
     this.inputElement.placeholder = this.placeholder;
     this.inputElement.type = "text";
@@ -61,7 +73,7 @@ class ChatUI {
     this.containerElement.appendChild(formElement);
   }
 
-  private async renderMessages() {
+  private renderMessages() {
     if (!this.messagesElement) {
       return;
     }
@@ -69,7 +81,9 @@ class ChatUI {
     this.messagesElement.innerHTML = "";
 
     for (const message of this.messages) {
-      const authorName = message.role === "SYSTEM" ? this.systemName : this.userName;
+      const authorName = message.role === "SYSTEM"
+        ? this.systemName
+        : this.userName;
       const authorElement = createElement("h2", "chatui-message-author");
       authorElement.textContent = authorName;
 
@@ -131,7 +145,7 @@ class ChatUI {
         method: "POST",
         body: {
           messages: this.messages,
-        }
+        },
       });
 
       if (!response.output) {
@@ -147,7 +161,8 @@ class ChatUI {
       this.error = "Failed to send message. Please try again.";
       this.renderMessages();
     }
-  }
+  };
 }
 
+// deno-lint-ignore no-explicit-any
 (window as any).ChatUI = ChatUI;
