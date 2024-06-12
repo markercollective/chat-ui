@@ -43,7 +43,7 @@ basic Markdown formatting (lists, links, etc) as needed:
 ## Usage
 
 ```
-<script src="/path/to/chat-ui.js"></script>
+<script src="https://formation-team.github.io/chat-ui/chat-ui.js"></script>
 <script>
 const chatbot = new ChatUI({
   // Required
