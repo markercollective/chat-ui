@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+  <head>
+    <title>chat-ui example</title>
+  </head>
+  <body>
+    <div id="chat-ui"></div>
+    <script src="../dist/chat-ui.js"></script>
+    <script>
+      const chatbot = new ChatUI({
+        element: document.querySelector('.chat-ui'),
+        placeholder: 'Your message placeholder',
+        systemName: 'Robot',
+        apiUrl: 'http://localhost:8787'
+      });
+    </script>
+  </body>
+</html>

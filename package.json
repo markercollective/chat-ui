@@ -1,0 +1,17 @@
+{
+  "name": "chat-ui",
+  "version": "1.0.0",
+  "description": "A lightweight JavaScript library for integrating a chatbot or other conversational experience into a website.",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rm -rf dist || true",
+    "build": "npm run clean && esbuild src/index.ts --bundle --minify --outfile=dist/chat-ui.js",
+    "dev": "npm run clean && esbuild src/index.ts --bundle --sourcemap --outfile=dist/chat-ui.js --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "PRIVATE",
+  "devDependencies": {
+    "esbuild": "^0.21.5"
+  }
+}
