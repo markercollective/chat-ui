@@ -5,6 +5,12 @@ conversational experience into a website.
 
 Provides chat UI and HTML elements; styling and integration is up to you.
 
+## Example
+
+With no additional styling, plain HTML elements will be created for your chat components:
+
+<img width="921" alt="Screenshot 2024-06-12 at 15 51 09" src="https://github.com/formation-team/chat-ui/assets/806257/41bf0ffa-ff09-4b49-9b00-bc52477cbf96">
+
 ## Backend API
 
 This is only the frontend client; you're expected to provide a backend API for
