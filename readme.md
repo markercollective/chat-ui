@@ -47,12 +47,13 @@ basic Markdown formatting (lists, links, etc) as needed:
 <script>
 const chatbot = new ChatUI({
   // Required
-  element: '.chat-ui',
+  element: document.querySelector('.chat-ui'),
   apiUrl: 'https://example.com/my/api',
 
   // Optional
   placeholder: 'Your message placeholder',
-  systemName: 'Robot'
+  systemName: 'Robot',
+  userName: 'You'
 });
 </script>
 ```
