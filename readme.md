@@ -59,7 +59,10 @@ const chatbot = new ChatUI({
 
 Creates elements with the following class names:
 
+- `.chatui-messages`
+  - `.chatui-message`
+    - `.chatui-message-author`
+    - `.chatui-message-text`
+  - `.chatui-typing-indicator`
+  - `.chatui-error`
 - `.chatui-input`
-- `.chatui-message`
-  - `.chatui-message-author`
-  - `.chatui-message-text`
