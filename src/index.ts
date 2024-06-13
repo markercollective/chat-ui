@@ -71,14 +71,21 @@ class ChatUI {
     this.containerElement.innerHTML = "";
     this.containerElement.appendChild(this.messagesElement);
     this.containerElement.appendChild(formElement);
+
+    this.renderMessages();
   }
 
   private renderMessages() {
-    if (!this.messagesElement) {
+    if (!this.messagesElement || !this.inputElement) {
       return;
     }
 
     this.messagesElement.innerHTML = "";
+
+    this.inputElement.classList.toggle(
+      "chatui-input-first-message",
+      this.messages.length === 0,
+    );
 
     for (const message of this.messages) {
       const authorName = message.role === "SYSTEM"
@@ -131,15 +138,16 @@ class ChatUI {
       return;
     }
 
+    this.inputElement!.value = "";
+    this.inputElement!.focus();
+    await this.sendMessage(message);
+  };
+
+  public sendMessage = async (message: string) => {
     this.isTyping = true;
     this.addMessage({ role: "USER", message });
 
-    this.inputElement!.value = "";
-    this.inputElement!.focus();
-
     try {
-      this.renderMessages();
-
       const response = await fetchJson<{ output: string }>({
         url: this.apiUrl,
         method: "POST",

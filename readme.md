@@ -46,7 +46,7 @@ basic Markdown formatting (lists, links, etc) as needed:
 { "output": "Chat bot output here" }
 ```
 
-## Usage
+## Usage & API
 
 ```
 <script src="https://formation-team.github.io/chat-ui/chat-ui.js"></script>
@@ -64,12 +64,22 @@ const chatbot = new ChatUI({
 </script>
 ```
 
-Creates elements with the following class names:
+Public methods on `ChatUI` instances:
 
-- `.chatui-messages`
-  - `.chatui-message`
-    - `.chatui-message-author`
-    - `.chatui-message-text`
-  - `.chatui-typing-indicator`
-  - `.chatui-error`
+```
+sendMessage(message: string): Promise<void>
+```
+- Send a message (as the user) to the conversation
+
+## Styling
+
+ChatUI creates DOM elements with the following class names:
+
+- `.chatui-messages` 
+- `.chatui-message`
+- `.chatui-message-author`
+- `.chatui-message-text`
+- `.chatui-typing-indicator`
+- `.chatui-error`
 - `.chatui-input`
+- `.chatui-input-first-message`
