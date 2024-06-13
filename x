@@ -63,6 +63,7 @@ cmd:publish() {
   git push -f
 
   git checkout main
+  npm install
 }
 
 (
