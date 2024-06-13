@@ -57,7 +57,8 @@ const chatbot = new ChatUI({
   apiUrl: 'https://example.com/my/api',
 
   // Optional
-  placeholder: 'Your message placeholder',
+  placeholder: 'Send your first message...',
+  followUpPlaceholder: 'Send another message...',
   systemName: 'Robot',
   userName: 'You'
 });
@@ -82,4 +83,6 @@ ChatUI creates DOM elements with the following class names:
 - `.chatui-typing-indicator`
 - `.chatui-error`
 - `.chatui-input`
-- `.chatui-input-first-message`
+
+Additionally, it will toggle the `.chatui-first-message` class on your container
+element depending on whether a message has been sent yet.

@@ -6,6 +6,7 @@ interface Options {
   apiUrl: string;
 
   placeholder?: string;
+  followUpPlaceholder?: string;
   systemName?: string;
   userName?: string;
 }
@@ -28,6 +29,7 @@ class ChatUI {
   private containerElement: HTMLElement;
   private apiUrl: string;
   private placeholder: string;
+  private followUpPlaceholder: string;
   private systemName: string;
   private userName: string;
 
@@ -48,6 +50,8 @@ class ChatUI {
     this.containerElement = options.element;
     this.apiUrl = options.apiUrl;
     this.placeholder = options.placeholder || "Type a message...";
+    this.followUpPlaceholder = options.followUpPlaceholder ||
+      options.placeholder || "Type a follow up...";
     this.systemName = options.systemName || "System";
     this.userName = options.userName || "You";
 
@@ -60,7 +64,6 @@ class ChatUI {
       "chatui-messages",
     );
 
-    this.inputElement.placeholder = this.placeholder;
     this.inputElement.type = "text";
     this.inputElement.autofocus = true;
 
@@ -81,11 +84,6 @@ class ChatUI {
     }
 
     this.messagesElement.innerHTML = "";
-
-    this.inputElement.classList.toggle(
-      "chatui-input-first-message",
-      this.messages.length === 0,
-    );
 
     for (const message of this.messages) {
       const authorName = message.role === "SYSTEM"
@@ -122,6 +120,17 @@ class ChatUI {
       errorElement.textContent = this.error;
       this.messagesElement.appendChild(errorElement);
     }
+
+    const isFirstMessage = this.messages.length === 0;
+
+    this.containerElement.classList.toggle(
+      "chatui-first-message",
+      isFirstMessage,
+    );
+
+    this.inputElement.placeholder = isFirstMessage
+      ? this.placeholder
+      : this.followUpPlaceholder;
   }
 
   private addMessage(message: Message) {

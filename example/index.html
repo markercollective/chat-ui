@@ -28,14 +28,14 @@
         margin-bottom: 1em;
       }
 
-      .chatui-input-first-message {
+      .chatui-first-message .chatui-input {
         font-size: 30px;
       }
     </style>
   </head>
   <body>
     <main>
-      <div class="chat-ui"></div>
+      <div class="container"></div>
       <div>
         Suggestions:
         <button class="message-suggestion">What's your name?</button>
@@ -48,8 +48,9 @@
 
     <script>
       const chatbot = new ChatUI({
-        element: document.querySelector('.chat-ui'),
+        element: document.querySelector('.container'),
         placeholder: 'Type a message...',
+        followUpPlaceholder: 'Type a follow-up message...',
         systemName: 'Robot',
         apiUrl: 'http://localhost:8787'
       });
