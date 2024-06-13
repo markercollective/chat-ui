@@ -35,11 +35,11 @@ class ChatUI {
 
   private inputElement: HTMLTextAreaElement = createElement(
     "textarea",
-    ["chatui-input"]
+    ["chatui-input"],
   );
   private messagesElement: HTMLDivElement = createElement(
     "div",
-    ["chatui-messages"]
+    ["chatui-messages"],
   );
   private isTyping: boolean = false;
   private error: string | null = null;
@@ -61,7 +61,7 @@ class ChatUI {
   private render() {
     this.messagesElement = createElement<HTMLDivElement>(
       "div",
-      ["chatui-messages"]
+      ["chatui-messages"],
     );
 
     this.inputElement.autofocus = true;
@@ -83,7 +83,10 @@ class ChatUI {
     this.renderMessages();
   }
 
-  private createMessageElement = (message: Message, additionalTextClassName?: string) => {
+  private createMessageElement = (
+    message: Message,
+    additionalTextClassName?: string,
+  ) => {
     const authorName = message.role === "SYSTEM"
       ? this.systemName
       : this.userName;
@@ -111,7 +114,7 @@ class ChatUI {
     messageElement.appendChild(authorElement);
     messageElement.appendChild(textElement);
     return messageElement;
-  }
+  };
 
   private renderMessages() {
     if (!this.messagesElement || !this.inputElement) {
@@ -129,7 +132,7 @@ class ChatUI {
       const messageElement = this.createMessageElement({
         role: "SYSTEM",
         message: "...",
-      }, 'chatui-typing-indicator');
+      }, "chatui-typing-indicator");
 
       this.messagesElement.appendChild(messageElement);
     }
