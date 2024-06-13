@@ -69,6 +69,9 @@ class ChatUI {
     this.inputElement.addEventListener("input", this.ensureInputSize);
     this.inputElement.addEventListener("keydown", this.onInputKeyDown);
 
+    // deno-lint-ignore no-explicit-any
+    (window as any).addEventListener("resize", this.ensureInputSize);
+
     const formElement = createElement<HTMLFormElement>("form", "chatui-form");
     formElement.appendChild(this.inputElement);
     formElement.addEventListener("submit", this.onSubmit);
