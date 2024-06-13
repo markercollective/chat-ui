@@ -85,7 +85,7 @@ class ChatUI {
 
   private createMessageElement = (
     message: Message,
-    additionalTextClassName?: string,
+    isTypingIndicator?: boolean,
   ) => {
     const authorName = message.role === "SYSTEM"
       ? this.systemName
@@ -96,13 +96,13 @@ class ChatUI {
 
     const textElementClassNames = ["chatui-message-text"];
 
-    if (additionalTextClassName) {
-      textElementClassNames.push(additionalTextClassName);
+    if (isTypingIndicator) {
+      textElementClassNames.push("chatui-typing-indicator");
     }
 
     const textElement = createElement("p", textElementClassNames);
 
-    if (message.role === "SYSTEM") {
+    if (message.role === "SYSTEM" && !isTypingIndicator) {
       const html: string = marked.parse(message.message) as string;
       textElement.innerHTML = html;
     } else {
@@ -131,8 +131,8 @@ class ChatUI {
     if (this.isTyping) {
       const messageElement = this.createMessageElement({
         role: "SYSTEM",
-        message: "...",
-      }, "chatui-typing-indicator");
+        message: "…",
+      }, true);
 
       this.messagesElement.appendChild(messageElement);
     }

@@ -31,6 +31,23 @@
       .chatui-first-message .chatui-input {
         font-size: 30px;
       }
+
+      .chatui-typing-indicator {
+        /* animate . to .. to ... */
+        width: 0;
+        animation: typing steps(4, end) 1s infinite;
+        overflow-x: hidden;
+      }
+
+      @keyframes typing {
+        from {
+          width: 0;
+        }
+        to {
+          width: 1.5em;
+        }
+      }
+
     </style>
   </head>
   <body>
