@@ -33,8 +33,8 @@ class ChatUI {
   private systemName: string;
   private userName: string;
 
-  private inputElement: HTMLInputElement = createElement(
-    "input",
+  private inputElement: HTMLTextAreaElement = createElement(
+    "textarea",
     "chatui-input",
   );
   private messagesElement: HTMLDivElement = createElement(
@@ -64,8 +64,10 @@ class ChatUI {
       "chatui-messages",
     );
 
-    this.inputElement.type = "text";
     this.inputElement.autofocus = true;
+    this.inputElement.rows = 1;
+    this.inputElement.addEventListener("input", this.ensureInputSize);
+    this.inputElement.addEventListener("keydown", this.onInputKeyDown);
 
     const formElement = createElement<HTMLFormElement>("form", "chatui-form");
     formElement.appendChild(this.inputElement);
@@ -131,6 +133,8 @@ class ChatUI {
     this.inputElement.placeholder = isFirstMessage
       ? this.placeholder
       : this.followUpPlaceholder;
+
+    this.ensureInputSize();
   }
 
   private addMessage(message: Message) {
@@ -140,8 +144,8 @@ class ChatUI {
     this.inputElement.focus();
   }
 
-  private onSubmit = async (event: SubmitEvent) => {
-    event.preventDefault();
+  private onSubmit = async (event?: SubmitEvent) => {
+    event?.preventDefault();
 
     const message = this.inputElement?.value.trim();
 
@@ -150,7 +154,21 @@ class ChatUI {
     }
 
     this.inputElement!.value = "";
+    this.ensureInputSize();
     await this.sendMessage(message);
+  };
+
+  private ensureInputSize = () => {
+    this.inputElement.style.height = "auto";
+    const height = this.inputElement.scrollHeight;
+    this.inputElement.style.height = `${height}px`;
+  };
+
+  private onInputKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      this.onSubmit();
+    }
   };
 
   public sendMessage = async (message: string) => {
