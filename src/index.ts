@@ -136,6 +136,8 @@ class ChatUI {
   private addMessage(message: Message) {
     this.messages.push(message);
     this.renderMessages();
+    this.containerElement.scrollTop = this.containerElement.scrollHeight;
+    this.inputElement.focus();
   }
 
   private onSubmit = async (event: SubmitEvent) => {
@@ -148,7 +150,6 @@ class ChatUI {
     }
 
     this.inputElement!.value = "";
-    this.inputElement!.focus();
     await this.sendMessage(message);
   };
 
