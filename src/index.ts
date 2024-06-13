@@ -18,10 +18,10 @@ interface Message {
 
 function createElement<T extends HTMLElement>(
   tagName: string,
-  className: string,
+  classNames: string[],
 ): T {
   const element = document.createElement(tagName) as T;
-  element.classList.add(className);
+  element.classList.add(...classNames);
   return element;
 }
 
@@ -35,11 +35,11 @@ class ChatUI {
 
   private inputElement: HTMLTextAreaElement = createElement(
     "textarea",
-    "chatui-input",
+    ["chatui-input"]
   );
   private messagesElement: HTMLDivElement = createElement(
     "div",
-    "chatui-messages",
+    ["chatui-messages"]
   );
   private isTyping: boolean = false;
   private error: string | null = null;
@@ -61,7 +61,7 @@ class ChatUI {
   private render() {
     this.messagesElement = createElement<HTMLDivElement>(
       "div",
-      "chatui-messages",
+      ["chatui-messages"]
     );
 
     this.inputElement.autofocus = true;
@@ -72,7 +72,7 @@ class ChatUI {
     // deno-lint-ignore no-explicit-any
     (window as any).addEventListener("resize", this.ensureInputSize);
 
-    const formElement = createElement<HTMLFormElement>("form", "chatui-form");
+    const formElement = createElement<HTMLFormElement>("form", ["chatui-form"]);
     formElement.appendChild(this.inputElement);
     formElement.addEventListener("submit", this.onSubmit);
 
@@ -83,6 +83,36 @@ class ChatUI {
     this.renderMessages();
   }
 
+  private createMessageElement = (message: Message, additionalTextClassName?: string) => {
+    const authorName = message.role === "SYSTEM"
+      ? this.systemName
+      : this.userName;
+
+    const authorElement = createElement("h2", ["chatui-message-author"]);
+    authorElement.textContent = authorName;
+
+    const textElementClassNames = ["chatui-message-text"];
+
+    if (additionalTextClassName) {
+      textElementClassNames.push(additionalTextClassName);
+    }
+
+    const textElement = createElement("p", textElementClassNames);
+
+    if (message.role === "SYSTEM") {
+      const html: string = marked.parse(message.message) as string;
+      textElement.innerHTML = html;
+    } else {
+      textElement.textContent = message.message;
+    }
+
+    const messageElement = createElement("div", ["chatui-message"]);
+
+    messageElement.appendChild(authorElement);
+    messageElement.appendChild(textElement);
+    return messageElement;
+  }
+
   private renderMessages() {
     if (!this.messagesElement || !this.inputElement) {
       return;
@@ -91,37 +121,21 @@ class ChatUI {
     this.messagesElement.innerHTML = "";
 
     for (const message of this.messages) {
-      const authorName = message.role === "SYSTEM"
-        ? this.systemName
-        : this.userName;
-      const authorElement = createElement("h2", "chatui-message-author");
-      authorElement.textContent = authorName;
-
-      const textElement = createElement("p", "chatui-message-text");
-
-      if (message.role === "SYSTEM") {
-        const html: string = marked.parse(message.message) as string;
-        textElement.innerHTML = html;
-      } else {
-        textElement.textContent = message.message;
-      }
-
-      const messageElement = createElement("div", "chatui-message");
-
-      messageElement.appendChild(authorElement);
-      messageElement.appendChild(textElement);
-
+      const messageElement = this.createMessageElement(message);
       this.messagesElement.appendChild(messageElement);
     }
 
     if (this.isTyping) {
-      const typingElement = createElement("div", "chatui-typing-indicator");
-      typingElement.textContent = "...";
-      this.messagesElement.appendChild(typingElement);
+      const messageElement = this.createMessageElement({
+        role: "SYSTEM",
+        message: "...",
+      }, 'chatui-typing-indicator');
+
+      this.messagesElement.appendChild(messageElement);
     }
 
     if (this.error) {
-      const errorElement = createElement("div", "chatui-error");
+      const errorElement = createElement("div", ["chatui-error"]);
       errorElement.textContent = this.error;
       this.messagesElement.appendChild(errorElement);
     }
@@ -192,6 +206,7 @@ class ChatUI {
       }
 
       this.isTyping = false;
+      this.error = null;
       this.addMessage({ role: "SYSTEM", message: response.output });
     } catch (error) {
       this.isTyping = false;
