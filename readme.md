@@ -49,7 +49,7 @@ basic Markdown formatting (lists, links, etc) as needed:
 ## Usage & API
 
 ```
-<script src="https://formation-team.github.io/chat-ui/chat-ui.js"></script>
+<script src="https://markercollective.github.io/chat-ui/chat-ui.js"></script>
 <script>
 const chatbot = new ChatUI({
   // Required
